@@ -30,54 +30,66 @@
 #include "xmalloc.h"
 #include "stack.h"
 
+/* item in a stack, with a corresponding data object */
 struct stack_node {
    void *item;
    struct stack_node *prev;
 };
 
+/* stack itself, which holds the top node and it's size */
 struct stack {
    stack_node *top;
    unsigned size;
 };
 
+/* allocates a new stack */
 stack *new_stack(void) {
    stack *s = xmalloc(sizeof(stack));
 
+   /* empty... for now */
    s->top = NULL;
    s->size = 0;
 
    return s;
 }
 
+/* place an item on top of the stack */
 void stack_push(stack *s, void *item) {
    stack_node *n = xmalloc(sizeof(stack_node));
 
+   /* set up new node */
    n->prev = s->top;
    n->item = item;
 
+   /* replace top node and increase size */
    s->size++;
    s->top = n;
 }
 
+/* removes the item on top of the stack */
 void *stack_pop(stack *s) {
+   /* get the top item and it's data object */
    stack_node *tmp = s->top;
    void *item = tmp->item;
 
+   /* replace the top node with the one under and decrease size */
    s->top = tmp->prev;
    s->size--;
 
+   /* free the old top node and return the date */
    free(tmp);
-
    return item;
 }
 
+/* deallocates a stack */
 void free_stack(stack *s) {
+   /* pop everything off and free */
    while (s->size)
       stack_pop(s);
-
    free(s);
 }
 
+/* retrieve the size of the stack */
 int stack_size(stack *s) {
    return s->size;
 }

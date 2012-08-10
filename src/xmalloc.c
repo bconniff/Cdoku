@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* "safe" malloc, exits with an error if allocation fails */
 void *xmalloc(size_t sz) {
    void *data = NULL;
    if (!(data = malloc(sz))) {
@@ -38,7 +39,7 @@ void *xmalloc(size_t sz) {
    return data;
 }
 
-
+/* "safe" realloc, exits with an error if allocation fails */
 void *xrealloc(void *old, size_t sz) {
    void *new = NULL;
    if (!(new = realloc(old, sz))) {

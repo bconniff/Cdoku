@@ -34,55 +34,78 @@
 #define CONST_K 3
 #define CONST_N 9
 
+/* solves all the Sudoku puzzles in the given file */
 void solve_file(char *name) {
    FILE *file;
    int x, y;
+
+   /* try to open the file */
    if (file = fopen(name, "r")) {
       printf("Reading from file: %s\n", name);
       unsigned i = 0;
+
+      /* keep going until the file ends */
       for (;;) {
+         /* try to get the next puzzle */
          int **puzzle = next_puzzle(CONST_K, file);
 
+         /* if we hit an EOF, call it quits */
          if (feof(file))
             break;
 
+         /* make sure the puzzle was valid */
          printf("   Solving puzzle #%u: ", ++i);
          if (puzzle) {
-            int **soln = solve(CONST_K, puzzle);
-            if (soln) {
+            int **soln;
+
+            /* valid puzzle, try to solve it */
+            if (soln = solve(CONST_K, puzzle)) {
+               /* found a solution, print it out and clean up */
                printf("Solved.\n");
+
                for (y = 0; y < CONST_N; y++) {
                   printf("      ");
                   for (x = 0; x < CONST_N; x++)
                      printf("%x", soln[x][y]);
                   printf("\n");
                }
+
                free_puzzle(CONST_K, soln);
             } else {
+               /* puzzle couldn't be solved */
                printf("No solution.\n");
             }
+
+            /* clean up our mess */
             free_puzzle(CONST_K, puzzle);
-         } else if (feof(file)) {
-            break;
          } else {
+            /* puzzle wasn't valid... the only way this can happen is if the
+             * puzzle was the wrong length */
             printf("Invalid length.\n");
          }
       }
-      fclose(file);
+      /* check fclose return value, just for good practice */
+      if (fclose(file))
+         printf("Failed to close file: %s\n", name);
    } else {
       printf("Couldn't open file: %s\n", name);
    }
 }
 
+/* main program */
 int main(int argc, char **argv) {
    int i;
+
+   /* check number of arguments */
    if (argc > 1) {
-      for (i = 1; i < argc; i++) {
+      /* solve the puzzles provided */
+      for (i = 1; i < argc; i++)
          solve_file(argv[i]);
-      }
    } else {
+      /* no arguments, print usage */
       printf("cdoku - DLX Sudoku Solver in C\n");
       printf("usage: %s [file]...\n", argv[0]);
    }
+
    return 0;
 }

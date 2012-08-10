@@ -31,29 +31,65 @@
 #include "xmalloc.h"
 #include "reader.h"
 
-int **read_puzzle(const int k, const char *name) {
-   const int n = k*k;
-
-   FILE *file;
-
-   if (file = fopen(name, "r")) {
-      int c, x, y;
-      int **puzzle = xmalloc(n * sizeof(int*));
-      for (x = 0; x < n; x++)
-         puzzle[x] = xmalloc(n * sizeof(int));
-
-      x = 0, y = 0;
-      while (y < n && (c = fgetc(file)) != EOF) {
-         puzzle[x][y] = c - '0';
-         if (x == n-1) {
-            x = 0;
-            y++;
-         } else x++;
-      }
-      fclose(file);
-      return puzzle;
-   } else {
+char *next_line(FILE *file, int *l) {
+   if (feof(file)) {
       return NULL;
    }
 
+   char *line = xmalloc(BUF_SIZE*sizeof(char));
+   size_t lenmax = BUF_SIZE, len = 0;
+   int c;
+
+   for (;;) {
+      c = fgetc(file);
+
+      if (c == EOF || c == '\n')
+         break;
+
+      line[len++] = c;
+
+      if (len == lenmax) {
+         line = xrealloc(line, (lenmax *= 2));
+      }
+   }
+
+   *l = len;
+   line[len++] = '\0';
+   return xrealloc(line, len);
+}
+
+int **next_puzzle(int k, FILE *file) {
+   const int n = k*k, n2 = n*n;
+   int len;
+   char *line;
+   
+   if (!(line = next_line(file, &len)))
+      return NULL;
+
+   int x, y, c;
+   int **puzzle = NULL;
+
+   if (len == n2) {
+      puzzle = xmalloc(n * sizeof(int*));
+      for (x = 0; x < n; x++)
+         puzzle[x] = xmalloc(n * sizeof(int));
+
+      for (y = 0; y < n; y++) {
+         for (x = 0; x < n; x++) {
+            const int v = line[x+n*y] - '0';
+            puzzle[x][y] = (v > 0 && v <= n) ? v : 0;
+         }
+      }
+   }
+
+   free(line);
+   return puzzle;
+}
+
+void free_puzzle(const int k, int **puzzle) {
+   const int n = k*k;
+   int i;
+   for (i = 0; i < n; i++)
+      free(puzzle[i]);
+   free(puzzle);
 }

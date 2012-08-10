@@ -32,9 +32,18 @@
 void *xmalloc(size_t sz) {
    void *data = NULL;
    if (!(data = malloc(sz))) {
-      fprintf(stderr, "failed to malloc %Zu bytes, exiting\n",
-              sz);
+      fprintf(stderr, "failed to malloc %Zu bytes, exiting\n", sz);
       exit(1);
    }
    return data;
+}
+
+
+void *xrealloc(void *old, size_t sz) {
+   void *new = NULL;
+   if (!(new = realloc(old, sz))) {
+      fprintf(stderr, "failed to realloc %Zu bytes, exiting", sz);
+      exit(1);
+   }
+   return new;
 }

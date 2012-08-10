@@ -29,6 +29,9 @@
 #ifndef READER_H_GUARD
 #define READER_H_GUARD
 
-int **read_puzzle(const int k, const char *name);
+#define BUF_SIZE 81
+
+int **next_puzzle(int k, FILE *file);
+void free_puzzle(int k, int **puzzle);
 
 #endif

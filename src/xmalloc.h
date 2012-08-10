@@ -29,6 +29,7 @@
 #ifndef XMALLOC_H_GUARD
 #define XMALLOC_H_GUARD
 
+void *xrealloc(void *old, size_t sz);
 void *xmalloc(size_t sz);
 
 #endif

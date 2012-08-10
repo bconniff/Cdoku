@@ -36,18 +36,39 @@ int main(int argc, char **argv) {
    int i, x, y;
    if (argc > 1) {
       for (i = 1; i < argc; i++) {
-         int **puzzle = read_puzzle(k, argv[i]);
-         if (puzzle) {
-            int **soln = solve(k, puzzle);
+         FILE *file;
+         if (file = fopen(argv[i], "r")) {
+            printf("Reading from file: %s\n", argv[i]);
+            unsigned i = 0;
+            for (;;) {
+               int **puzzle = next_puzzle(k, file);
 
-            for (y = 0; y < n; y++) {
-               for (x = 0; x < n; x++) {
-                  printf("%x", soln[x][y]);
+               if (feof(file))
+                  break;
+
+               printf("   Solving puzzle #%u: ", ++i);
+               if (puzzle) {
+                  int **soln = solve(k, puzzle);
+                  if (soln) {
+                     printf("Solved.\n");
+                     for (y = 0; y < n; y++) {
+                        printf("      ");
+                        for (x = 0; x < n; x++)
+                           printf("%x", soln[x][y]);
+                        printf("\n");
+                     }
+                  } else {
+                     printf("No solution.\n");
+                  }
+               } else if (feof(file)) {
+                  break;
+               } else {
+                  printf("Invalid length.\n");
                }
-               printf("\n");
             }
+            fclose(file);
          } else {
-            printf("Could not load file %s\n", argv[i]);
+            printf("Couldn't open file: %s\n", argv[i]);
          }
       }
    } else {

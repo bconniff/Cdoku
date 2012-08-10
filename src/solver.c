@@ -125,6 +125,7 @@ int **solve(int k, int **vals) {
       }
    }
 
+   free(result);
    free_solver(s);
    return solution;
 }

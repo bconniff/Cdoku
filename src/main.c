@@ -31,45 +31,54 @@
 #include "reader.h"
 #include "solver.h"
 
+#define CONST_K 3
+#define CONST_N 9
+
+void solve_file(char *name) {
+   FILE *file;
+   int x, y;
+   if (file = fopen(name, "r")) {
+      printf("Reading from file: %s\n", name);
+      unsigned i = 0;
+      for (;;) {
+         int **puzzle = next_puzzle(CONST_K, file);
+
+         if (feof(file))
+            break;
+
+         printf("   Solving puzzle #%u: ", ++i);
+         if (puzzle) {
+            int **soln = solve(CONST_K, puzzle);
+            if (soln) {
+               printf("Solved.\n");
+               for (y = 0; y < CONST_N; y++) {
+                  printf("      ");
+                  for (x = 0; x < CONST_N; x++)
+                     printf("%x", soln[x][y]);
+                  printf("\n");
+               }
+               free_puzzle(CONST_K, soln);
+            } else {
+               printf("No solution.\n");
+            }
+            free_puzzle(CONST_K, puzzle);
+         } else if (feof(file)) {
+            break;
+         } else {
+            printf("Invalid length.\n");
+         }
+      }
+      fclose(file);
+   } else {
+      printf("Couldn't open file: %s\n", name);
+   }
+}
+
 int main(int argc, char **argv) {
-   const int k = 3, n = k*k;
-   int i, x, y;
+   int i;
    if (argc > 1) {
       for (i = 1; i < argc; i++) {
-         FILE *file;
-         if (file = fopen(argv[i], "r")) {
-            printf("Reading from file: %s\n", argv[i]);
-            unsigned i = 0;
-            for (;;) {
-               int **puzzle = next_puzzle(k, file);
-
-               if (feof(file))
-                  break;
-
-               printf("   Solving puzzle #%u: ", ++i);
-               if (puzzle) {
-                  int **soln = solve(k, puzzle);
-                  if (soln) {
-                     printf("Solved.\n");
-                     for (y = 0; y < n; y++) {
-                        printf("      ");
-                        for (x = 0; x < n; x++)
-                           printf("%x", soln[x][y]);
-                        printf("\n");
-                     }
-                  } else {
-                     printf("No solution.\n");
-                  }
-               } else if (feof(file)) {
-                  break;
-               } else {
-                  printf("Invalid length.\n");
-               }
-            }
-            fclose(file);
-         } else {
-            printf("Couldn't open file: %s\n", argv[i]);
-         }
+         solve_file(argv[i]);
       }
    } else {
       printf("cdoku - DLX Sudoku Solver in C\n");

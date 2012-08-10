@@ -203,8 +203,9 @@ void matrix_add_row(matrix *m, void *r, unsigned pos[], unsigned len) {
 
 void **matrix_solve(matrix *m, int *len) {
    stack *s = new_stack();
-   return matrix_solve_helper(m, s, len);
+   void **soln = matrix_solve_helper(m, s, len);
    free_stack(s);
+   return soln;
 }
 
 void free_matrix(matrix *m) {

@@ -1,4 +1,4 @@
-CC="gcc -g -O3 -ansi"
+CC="gcc -O3 -ansi"
 
 all: bin/cdoku
 

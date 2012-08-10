@@ -51,6 +51,8 @@ int main(int argc, char **argv) {
          }
       }
    } else {
+      printf("cdoku - DLX Sudoku Solver in C\n");
+      printf("usage: %s [file]...\n", argv[0]);
    }
    return 0;
 }

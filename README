@@ -17,12 +17,18 @@ Cdoku is essentially a C port of a similar program I wrote called Jadoku,
 written in Java. You can find Jadoku at:
 http://www.github.com/bconniff/Jadoku
 
-FILE FORMAT
+USAGE
+
+Using Cdoku is simple, invoke it like this:
+
+   cdoku [file]...
 
 This program take a list of files as arguments. Each file contains a list of
-puzzles, one per line. Each puzzle is a string of 81 digits with no spaces,
-representing the cells on a Sudoku grid from top-left to bottom-right. Cells
-numbered as 0 represent empty cells.
+puzzles, one per line. Each puzzle is a string of 81 digits, representing the
+cells on a Sudoku grid from top-left to bottom-right. Any non-numeric value is
+considered an empty cell.
+
+N.B. Currently only one puzzle per file is supported. This will be fixed.
 
 REQUIREMENTS
 

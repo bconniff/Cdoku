@@ -28,8 +28,6 @@ puzzles, one per line. Each puzzle is a string of 81 digits, representing the
 cells on a Sudoku grid from top-left to bottom-right. Any non-numeric value is
 considered an empty cell.
 
-N.B. Currently only one puzzle per file is supported. This will be fixed.
-
 REQUIREMENTS
 
 To build Cdoku, you'll need a C compiler and the make command. The program

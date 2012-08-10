@@ -28,8 +28,29 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "reader.h"
 #include "solver.h"
 
-int main(void) {
+int main(int argc, char **argv) {
+   const int k = 3, n = k*k;
+   int i, x, y;
+   if (argc > 1) {
+      for (i = 1; i < argc; i++) {
+         int **puzzle = read_puzzle(k, argv[i]);
+         if (puzzle) {
+            int **soln = solve(k, puzzle);
+
+            for (y = 0; y < n; y++) {
+               for (x = 0; x < n; x++) {
+                  printf("%x", soln[x][y]);
+               }
+               printf("\n");
+            }
+         } else {
+            printf("Could not load file %s\n", argv[i]);
+         }
+      }
+   } else {
+   }
    return 0;
 }

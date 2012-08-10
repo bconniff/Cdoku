@@ -1,4 +1,4 @@
-JSDOKU - JAVASCRIPT SUDOKU SOLVER
+CDOKU - C SUDOKU SOLVER
 
 Cdoku is a program for solving Sudoku puzzles using Donald Knuth's Dancing
 Links (DLX) implementation of Algorithm X. This version of the program is
@@ -16,6 +16,13 @@ detect if a puzzle is unsolvable.
 Cdoku is essentially a C port of a similar program I wrote called Jadoku,
 written in Java. You can find Jadoku at:
 http://www.github.com/bconniff/Jadoku
+
+FILE FORMAT
+
+This program take a list of files as arguments. Each file contains a list of
+puzzles, one per line. Each puzzle is a string of 81 digits with no spaces,
+representing the cells on a Sudoku grid from top-left to bottom-right. Cells
+numbered as 0 represent empty cells.
 
 REQUIREMENTS
 

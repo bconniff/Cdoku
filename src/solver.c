@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "xmalloc.h"
 #include "matrix.h"
 #include "stack.h"
 
@@ -13,7 +14,7 @@ typedef struct solver {
 } solver;
 
 row *new_row(int x, int y, int val) {
-   row *r = malloc(sizeof(row));
+   row *r = xmalloc(sizeof(row));
 
    r->x = x;
    r->y = y;
@@ -23,7 +24,7 @@ row *new_row(int x, int y, int val) {
 }
 
 solver *new_solver(int k) {
-   solver *s = malloc(sizeof(solver));
+   solver *s = xmalloc(sizeof(solver));
 
    const int n = k*k;
    const int x_off = n*n;
@@ -50,7 +51,7 @@ void free_solver(solver *s) {
    free(s);
 }
 
-inline int b_num(int k, int x, int y) {
+int b_num(int k, int x, int y) {
    return k*(y/k) + (x/k);
 }
 
@@ -87,9 +88,9 @@ int **solve(int k, int **vals) {
    int **solution = NULL;
 
    if (result) {
-      solution = malloc(n*sizeof(int*));
+      solution = xmalloc(n*sizeof(int*));
       for (i = 0; i < n; i++)
-         solution[i] = malloc(n*sizeof(int));
+         solution[i] = xmalloc(n*sizeof(int));
       for (i = 0; i < len; i++) {
          row *r = result[i];
          solution[r->x][r->y] = r->val;

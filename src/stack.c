@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "xmalloc.h"
 #include "stack.h"
 
 struct stack_node {
@@ -12,7 +13,7 @@ struct stack {
 };
 
 stack *new_stack(void) {
-   stack *s = malloc(sizeof(stack));
+   stack *s = xmalloc(sizeof(stack));
 
    s->top = NULL;
    s->size = 0;
@@ -21,7 +22,7 @@ stack *new_stack(void) {
 }
 
 void stack_push(stack *s, void *item) {
-   stack_node *n = malloc(sizeof(stack_node));
+   stack_node *n = xmalloc(sizeof(stack_node));
 
    n->prev = s->top;
    n->item = item;

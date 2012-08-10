@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "xmalloc.h"
 #include "stack.h"
 #include "matrix.h"
 
@@ -61,7 +62,7 @@ void uncover_col(node *head) {
 
 void **get_solution(stack *s, int *len) {
    const unsigned sz = stack_size(s);
-   void **list = malloc(sz*sizeof(void*));
+   void **list = xmalloc(sz*sizeof(void*));
    *len = sz;
 
    int i = 0;
@@ -112,10 +113,10 @@ void **matrix_solve_helper(matrix *m, stack *solution, int *len) {
 }
 
 matrix *new_matrix(unsigned w) {
-   matrix *m = malloc(sizeof(matrix));
-   node **row = malloc(w*sizeof(node*));
+   matrix *m = xmalloc(sizeof(matrix));
+   node **row = xmalloc(w*sizeof(node*));
 
-   node *first = malloc(sizeof(node));
+   node *first = xmalloc(sizeof(node));
    node *curr = first, *prev = first;
 
    int i;
@@ -127,7 +128,7 @@ matrix *new_matrix(unsigned w) {
       curr->head = curr;
       row[i] = curr;
       prev = curr;
-      curr = malloc(sizeof(node));
+      curr = xmalloc(sizeof(node));
    }
 
    prev->next = curr;
@@ -143,7 +144,7 @@ matrix *new_matrix(unsigned w) {
 }
 
 void matrix_add_row(matrix *m, void *r, unsigned pos[], unsigned len) {
-   node *first = malloc(sizeof(node));
+   node *first = xmalloc(sizeof(node));
    first->r = r;
 
    node *curr = first, *prev = curr;
@@ -162,7 +163,7 @@ void matrix_add_row(matrix *m, void *r, unsigned pos[], unsigned len) {
 
       m->row[pos[i]] = curr;
       prev = curr;
-      curr = malloc(sizeof(node));
+      curr = xmalloc(sizeof(node));
       curr->r = r;
    }
 

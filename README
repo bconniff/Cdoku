@@ -1,0 +1,44 @@
+JSDOKU - JAVASCRIPT SUDOKU SOLVER
+
+Cdoku is a program for solving Sudoku puzzles using Donald Knuth's Dancing
+Links (DLX) implementation of Algorithm X. This version of the program is
+written entirely in C, and licensed under the 3-clause BSD license. You can
+find license details in the LICENSE file, located in the root directory of the
+source distribution.
+
+The program solves Sudoku grids by converting them into an instance of the
+exact cover problem, solving the exact cover, and then converting the result
+back into an instance of Sudoku.
+
+The program will find a solution to a puzzle if at all possible, and will also
+detect if a puzzle is unsolvable.
+
+Cdoku is essentially a C port of a similar program I wrote called Jadoku,
+written in Java. You can find Jadoku at:
+http://www.github.com/bconniff/Jadoku
+
+REQUIREMENTS
+
+To build Cdoku, you'll need a C compiler and the make command. The program
+is ANSI C, and should compile wherever you want.
+
+COMPILATION
+
+Cdoku comes with a basic Makefile for building the "cdoku" binary. Assuming
+your compiler is GCC and you have "make" installed, from the root of the source
+distribution, simply run the command:
+
+   make
+
+If you use a C compiler other than GCC, you can set the command for your
+compiler by editing the "CC" variable in the Makefile. After running make, you
+can find the program binary at:
+
+   bin/cdoku
+
+You can feel free to copy this file to any location within your path, or simply
+run it from it's current location.
+
+Building and running Cdoku has only been tested on Mac OS X, but I see no
+reason it shouldn't work just as well on other UNIX systems or Linux. It
+quite possibly works on Windows too.
